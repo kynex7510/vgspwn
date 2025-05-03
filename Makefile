@@ -63,7 +63,7 @@ LIBS	:= -lctru2 -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= "/home/user/Desktop/ctr/gfx_thing/libctru/libctru" $(CTRULIB)
+LIBDIRS	:= "/home/user/Desktop/ctr/chain/libctru/libctru" $(CTRULIB)
 
 
 #---------------------------------------------------------------------------------
