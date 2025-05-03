@@ -54,7 +54,7 @@ static void threadMain(void*) {
         LightLock_Lock(&g_DoneLock);
         g_Done = true;
         LightLock_Unlock(&g_DoneLock);
-        CondVar_Broadcast(&g_DoneCV);
+        CondVar_Signal(&g_DoneCV);
     }
 
     LightLock_Unlock(&g_TriggerLock);
@@ -82,6 +82,8 @@ void vgspwnExit(void) {
     LightLock_Lock(&g_TriggerLock);
     g_Exit = true;
     LightLock_Unlock(&g_TriggerLock);
+
+    CondVar_Signal(&g_TriggerCV);
 
     threadJoin(g_Thread, U64_MAX);
 
@@ -112,7 +114,7 @@ void vgspwnAddTransfer(u32 src, u32 dst, size_t size) {
         0,
         0,
         0,
-        0
+        1
     };
 
     addCommand(CmdQueue(g_Target), dmaReq);
@@ -126,7 +128,7 @@ void vgspwnCommit(void) {
     g_Trigger = true;
     LightLock_Unlock(&g_TriggerLock);
 
-    CondVar_Broadcast(&g_TriggerCV);
+    CondVar_Signal(&g_TriggerCV);
 
     // Switch app.
     aptJumpToHomeMenu();
